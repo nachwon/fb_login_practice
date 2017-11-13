@@ -17,11 +17,7 @@ def index(request):
 def login(request):
     code = request.GET['code']
     redirect_uri = f"{request.scheme}://{request.META['HTTP_HOST']}{reverse('login')}"
-    url_access_token = "https://graph.facebook.com/v2.11/oauth/access_token?" \
-                       "client_id={app-id}" \
-                       "&redirect_uri={redirect-uri}" \
-                       "&client_secret={app-secret}" \
-                       "&code={code-parameter}"
+    url_access_token = "https://graph.facebook.com/v2.11/oauth/access_token"
 
     params_access_token = {
         "client_id": app_id,
