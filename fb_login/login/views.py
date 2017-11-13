@@ -29,4 +29,4 @@ def login(request):
     response = requests.get(url_access_token, params=params_access_token)
     result = response.json()
 
-    return HttpResponse(result)
+    return HttpResponse(result.items())
