@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 app_id = 1552973814793221
-app_secret = 'bb9f21234cde9c81be4df7c13f6f82b9'
+app_secret = 'ef94d617261d205dbc09d9d9d50f519a'
 
 
 def index(request):
@@ -27,6 +27,25 @@ def login(request):
     }
 
     response = requests.get(url_access_token, params=params_access_token)
-    result = response.json()
+    url_debug_token = 'https://graph.facebook.com/debug_token'
+    access_token = response.json()['access_token']
+    params_debug_token = {
+        "input_token":  access_token,
+        "access_token": f'{app_id}|{app_secret}'
+    }
 
-    return HttpResponse(result.items())
+    url_user_info = 'https://graph.facebook.com/me'
+    user_info_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'picture',
+        'email',
+    ]
+    params_user_info = {
+        "fields": ','.join(user_info_fields),
+        "access_token": access_token
+    }
+    user_info = requests.get(url_user_info, params=params_user_info)
+
+    return HttpResponse(user_info.json().items())
